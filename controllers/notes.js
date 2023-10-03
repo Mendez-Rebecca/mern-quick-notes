@@ -23,10 +23,14 @@ function newNote(req, res) {
 
 async function create(req, res) {
     try {
-        const note = await Note.create(req.body);
-        res.redirect(`/notes/${note._id}`);
+        const { text } = req.body;
+        const user = req.user;
+
+        const note = await Note.create({ text, user });
+
+        res.status(201).json(note);
     } catch (err) {
-        console.log(err);
-        res.render('notes/new', { errorMsg: err.message });
+        console.error(err);
+        res.status(500).json({ message: 'Server error' });
     }
 }
