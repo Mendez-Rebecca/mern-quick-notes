@@ -10,6 +10,14 @@ import LoginPage from '../../components/LoginPage/LoginPage';
 
 export default function App() {
   const [user, setUser] = useState(getUser());
+  const [notes, setNotes] = useState([]);
+
+  const addNote = (newNote) => {
+    if (newNote !== '') {
+      const updatedNotes = [...notes, newNote];
+      setNotes(updatedNotes);
+    }
+  };
 
   return (
     <main className="App">
@@ -17,8 +25,8 @@ export default function App() {
         <>
           <NavBar user={user} setUser={setUser} />
           <Routes>
-            <Route path="/notes/new" element={<NewNotesPage />} />
-            <Route path="/notes" element={<PastNotesPage />} />
+            <Route path="/notes/new" element={<NewNotesPage addNote={addNote} notes={notes} />} />
+            <Route path="/notes" element={<PastNotesPage notes={notes} />} />
           </Routes>
         </>
       ) : (

@@ -1,17 +1,14 @@
 import { useState } from 'react';
 
-export default function NewNotesPage() {
-  const [notes, setNotes] = useState([]);
+export default function NewNotesPage({ addNote, notes }) {
   const [newNote, setNewNote] = useState('');
 
-  const addNote = () => {
+  const handleAddNote = () => {
     if (newNote !== '') {
-      const updateNotes = [...notes, newNote];
-
-      setNotes(updateNotes);
+      addNote(newNote);
       setNewNote('');
     }
-  }
+  };
 
   return (
     <div>
@@ -23,12 +20,16 @@ export default function NewNotesPage() {
         onChange={(e) => setNewNote(e.target.value)}
         placeholder="Enter your new note here"
       />
-      <button onClick={addNote}>Add Note</button>
-      <ul>
-        {notes.map((note, index) => (
-          <li key={index}>{note}</li>
-        ))}
-      </ul>
+      <button onClick={handleAddNote}>Add Note</button>
+      {notes.length === 0 ? (
+        <p>No Notes Yet!</p>
+      ) : (
+        <ul>
+          {notes.map((note, index) => (
+            <li key={index}>{note}</li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }

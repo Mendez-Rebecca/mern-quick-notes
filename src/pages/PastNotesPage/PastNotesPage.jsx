@@ -1,15 +1,16 @@
-import { checkToken } from '../../utilities/users-service'
-
-export default function PastNotesPage() {
-  async function handleCheckToken() {
-    const expDate = await checkToken();
-    console.log(expDate);
-  }
-
+export default function PastNotesPage({ notes }) {
   return (
-    <>
-      <h1>PastNotesPage</h1>
-      <button onClick={() => handleCheckToken()}>Check When My Login Expires</button>
-    </>
+    <div>
+      <h1>Past Notes</h1>
+      {notes.length === 0 ? (
+        <p>No Notes Yet!</p>
+      ) : (
+        <ul>
+          {notes.map((note, index) => (
+            <li key={index}>{note}</li>
+          ))}
+        </ul>
+      )}
+    </div>
   );
 }
