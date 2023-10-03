@@ -7,6 +7,8 @@ require('dotenv').config();
 // Connect to the database
 require('./config/database');
 
+const notesRouter = require('./routes/notes');
+
 const app = express();
 
 app.use(logger('dev'));
@@ -20,6 +22,7 @@ app.use(express.static(path.join(__dirname, 'build')));
 // Middleware to verify token and assign user object of payload to req.user.
 // Be sure to mount before routes
 app.use(require('./config/checkToken'));
+app.use('/notes', notesRouter);
 
 const port = process.env.PORT || 3001;
 
