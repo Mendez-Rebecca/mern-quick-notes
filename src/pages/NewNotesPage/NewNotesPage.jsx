@@ -1,14 +1,22 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import * as notesAPI from '../../utilities/notes-api';
 
-export default function NewNotesPage({ addNote, notes }) {
+export default function NewNotesPage() {
   const [newNote, setNewNote] = useState('');
 
-  const handleAddNote = () => {
-    if (newNote !== '') {
-      addNote(newNote);
-      setNewNote('');
+  useEffect(() => {
+    async function getNotes() {
+      const notes = await notesAPI.getAll();
+      setNewNote(notes);
     }
-  };
+    getNotes();
+  })
+  // const handleAddNote = () => {
+  //   if (newNote !== '') {
+  //     addNote(newNote);
+  //     setNewNote('');
+  //   }
+  // };
 
   return (
     <div>
@@ -20,16 +28,7 @@ export default function NewNotesPage({ addNote, notes }) {
         onChange={(e) => setNewNote(e.target.value)}
         placeholder="Enter your new note here"
       />
-      <button onClick={handleAddNote}>Add Note</button>
-      {notes.length === 0 ? (
-        <p>No Notes Yet!</p>
-      ) : (
-        <ul>
-          {notes.map((note, index) => (
-            <li key={index}>{note}</li>
-          ))}
-        </ul>
-      )}
+      <button>Add Note</button>
     </div>
   );
 }
